@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Aug 13 14:21:54 2020
-@author: Robinson Montes
+Created on Mon Apr 7 00:21:54 2023
+@author: Victor Juma    
 """
 from fabric.api import local, put, run, env
 from datetime import datetime
+import os
 
 env.user = 'ubuntu'
-env.hosts = ['35.227.35.75', '100.24.37.33']
+env.hosts = ['100.26.20.5', '34.239.255.144']
 
 
 def do_pack():
@@ -29,6 +30,8 @@ def do_pack():
 def do_deploy(archive_path):
     """Deploy the boxing package tgz file
     """
+    if not os.path.exists(archive_path):
+                return False
     try:
         archive = archive_path.split('/')[-1]
         path = '/data/web_static/releases/' + archive.strip('.tgz')
@@ -52,5 +55,7 @@ def deploy():
     A function to call do_pack and do_deploy
     """
     archive_path = do_pack()
+    if archive_path is None:
+        return False
     answer = do_deploy(archive_path)
     return answer
