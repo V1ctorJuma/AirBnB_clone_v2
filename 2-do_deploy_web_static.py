@@ -30,6 +30,9 @@ def do_pack():
 def do_deploy(archive_path):
     """Deploy the boxing package tgz file
     """
+    if not os.path.exists(archive_path):
+        return False
+
     try:
         archive = archive_path.split('/')[-1]
         path = '/data/web_static/releases/' + archive.strip('.tgz')
